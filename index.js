@@ -6,6 +6,7 @@ let player = {
 let cards = [];
 let sum = 0;
 let hasBlackJack = false;
+let inProgress = false;
 let isAlive = false;
 let message = "";
 let messageEl = document.getElementById("message-el");
@@ -27,12 +28,15 @@ function getRandomCard() {
 }
 
 function startGame() {
-  isAlive = true;
-  let firstCard = getRandomCard();
-  let secondCard = getRandomCard();
-  cards = [firstCard, secondCard];
-  sum = firstCard + secondCard;
-  renderGame();
+  if (!inProgress) {
+    inProgress = true;
+    isAlive = true;
+    let firstCard = getRandomCard();
+    let secondCard = getRandomCard();
+    cards = [firstCard, secondCard];
+    sum = firstCard + secondCard;
+    renderGame();
+  }
 }
 
 function renderGame() {
@@ -47,9 +51,11 @@ function renderGame() {
   } else if (sum === 21) {
     message = "You've got Blackjack!";
     hasBlackJack = true;
+    inProgress = false;
   } else {
     message = "You're out of the game!";
     isAlive = false;
+    inProgress = false;
   }
   messageEl.textContent = message;
 }
